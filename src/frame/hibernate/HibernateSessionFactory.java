@@ -29,7 +29,7 @@ public class HibernateSessionFactory {
 
 	static {
     	try {
-			configuration.configure();
+			configuration.configure("config/hibernate.cfg.xml");
 			serviceRegistry = new ServiceRegistryBuilder().applySettings(configuration.getProperties()).buildServiceRegistry();
 			sessionFactory = configuration.buildSessionFactory(serviceRegistry);
 		} catch (Exception e) {

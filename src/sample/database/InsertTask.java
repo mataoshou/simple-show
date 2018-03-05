@@ -1,7 +1,6 @@
 package sample.database;
 
 import tool.common.Shift;
-import business.db.SweetTree;
 import frame.hibernate.DBUtil;
 
 public class InsertTask extends Thread

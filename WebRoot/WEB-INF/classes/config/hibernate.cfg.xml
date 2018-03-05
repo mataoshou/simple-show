@@ -18,8 +18,6 @@
 			com.mysql.jdbc.Driver
 		</property>
 		<property name="myeclipse.connection.profile">matao</property>
-		<mapping class="business.db.SweetProgram"></mapping>
-		<mapping class="business.db.SweetTree" />
 
 	</session-factory>
 

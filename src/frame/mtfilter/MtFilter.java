@@ -168,7 +168,7 @@ public class MtFilter implements Filter
 	@Override
 	public void init(FilterConfig config) throws ServletException
 	{
-		InputStream st = this.getClass().getResourceAsStream("/mt.xml");
+		InputStream st = this.getClass().getResourceAsStream("/config/mt.xml");
 
 		SAXReader reader = new SAXReader();
 		try
