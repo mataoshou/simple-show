@@ -12,7 +12,7 @@ import javax.servlet.ServletResponse;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
-import business.Config;
+import base.Config;
 
 public class StartSysFilter implements Filter
 {
