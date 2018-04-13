@@ -14,14 +14,14 @@ import net.sf.json.JSONArray;
 public class Convert
 {
 	// 数组转换为List
-	public static List toList(Object[] os)
+	public List toList(Object[] os)
 	{
 		List result = new ArrayList();
 		Collections.addAll(result, os);
 		return result;
 	}
 	//list转数组
-	public static Object[] toArray(List list)
+	public Object[] toArray(List list)
 	{
 		Object[] array = new Object[list.size()];
 		for (int i = 0; i < list.size(); i++) 
@@ -32,7 +32,7 @@ public class Convert
 	}
 
 	// map的key转换为List
-	public static List keytoList(Map map)
+	public List keytoList(Map map)
 	{
 		Iterator it = map.keySet().iterator();
 		List result = new ArrayList();
@@ -44,7 +44,7 @@ public class Convert
 	}
 
 	// map的value转换为List
-	public static List valuetoList(Map map)
+	public List valuetoList(Map map)
 	{
 		Iterator it = map.values().iterator();
 		List result = new ArrayList();
@@ -56,7 +56,7 @@ public class Convert
 	}
 	
 	//JSONArray 转为 String 数组
-	public static String[] jsonToSArray(JSONArray array)
+	public String[] jsonToSArray(JSONArray array)
 	{
 		String[] strs=new String[array.size()];
 		for(int i=0;i<array.size();i++)

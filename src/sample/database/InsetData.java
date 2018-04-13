@@ -5,38 +5,30 @@ import java.util.List;
 
 public class InsetData
 {
-	public static void main(String[] args){
+	public static void main(String[] args) throws InterruptedException{
 		
+		InsertTask.setTables(InsertUtils.buildTable(50, "sweet_tree"));
 		int count=0;
-		List<InsertTask> list=new ArrayList();
+		InsertFinishTask.i().start();
+//		List<InsertTask> list=new ArrayList();
 		while(count<10000)
 		{
-			for(int i=0;i<list.size();i++ )
+			while(InsertTask.isFree())
 			{
-				InsertTask insert =list.get(i);
-				if(!insert.isAlive())
-				{
-					list.remove(i);
+				System.out.println("有空闲表");
+				String table = InsertTask.getTable();
+				if(table.trim().length()>0){
+					InsertTask insert= new InsertTask();
+					insert.table = table;
+					insert.setI(count++);
+					insert.start();
+					System.out.println("...............启动第"+count+"个线程...............");
+					
 				}
+//				Thread.sleep(10);
 			}
-			int length=list.size();
-			for(int i=length;i<50;i++)
-			{
-				InsertTask insert= new InsertTask();
-				insert.setI(count++);
-				list.add(insert);
-				insert.start();
-				System.out.println("...............启动第"+count+"个线程...............");
-			}
-			System.out.println(".......等待下一轮监测..........");
-			try
-			{
-				Thread.sleep(1000*5);
-			} catch (InterruptedException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//			Thread.sleep(5);
+//			System.out.println(count);
 		}
 //		for(int i=0;i<10000;i++)
 //		{

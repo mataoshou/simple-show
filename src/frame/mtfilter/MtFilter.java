@@ -103,33 +103,35 @@ public class MtFilter implements Filter
 		}
 		return result;
 	}
-	
-	//初始化参数
+
+	// 初始化参数
 	void initParams(HttpServletRequest request, Object obj, Class c)
 	{
 		Map map = request.getParameterMap();
 
 		Set<String> set = map.keySet();
-		Method[] methods=c.getMethods();
-		for (String param : set)//遍历参数
+		Method[] methods = c.getMethods();
+		for (String param : set)// 遍历参数
 		{
-			try{
+			try
+			{
 				String setMethodName = MtTool.getSetMethodName(param);
-				for(int i=0;i<methods.length;i++)//遍历函数，找到set方法
+				for (int i = 0; i < methods.length; i++)// 遍历函数，找到set方法
 				{
-					Method m=methods[i];
-					if(m.getName().equals(setMethodName))
+					Method m = methods[i];
+					if (m.getName().equals(setMethodName))
 					{
-						Class[] ts=m.getParameterTypes();
-						if(ts.length!=1)continue;
-//						System.out.println(ts[0].toString());
-						
-						Object paramValue=MtTool.convertByType(request.getParameter(param), ts[0]);
+						Class[] ts = m.getParameterTypes();
+						if (ts.length != 1)
+							continue;
+						// System.out.println(ts[0].toString());
+
+						Object paramValue = MtTool.convertByType(
+								request.getParameter(param), ts[0]);
 						m.invoke(obj, paramValue);
 					}
 				}
-			}
-			catch(Exception e)
+			} catch (Exception e)
 			{
 				e.printStackTrace();
 			}
@@ -176,19 +178,23 @@ public class MtFilter implements Filter
 			Document xmldoc = reader.read(st);
 			Element root = xmldoc.getRootElement();
 			st.close();
-			List items = root.elements("action");// 获取所有的action
-			for (int i = 0; i < items.size(); i++)
+			List<Element> apis = root.elements("mt-api");// 获取所有的action
+			for (Element a : apis)
 			{
-				Element e = (Element) items.get(i);
-				String name = e.attribute("name").getText();// 获取name属性值
-				String cl = e.attribute("class").getText();// 获取class属性值
-				if (e.attribute("method") != null)
+				List items = a.elements("action");
+				for (int i = 0; i < items.size(); i++)
 				{
-					String method = e.attribute("method").getText();// 获取class属性值
-					method_map.put(name, method);// 增加执行函数的键值对
-				}
+					Element e = (Element) items.get(i);
+					String name = e.attribute("name").getText();// 获取name属性值
+					String cl = e.attribute("class").getText();// 获取class属性值
+					if (e.attribute("method") != null)
+					{
+						String method = e.attribute("method").getText();// 获取class属性值
+						method_map.put(name, method);// 增加执行函数的键值对
+					}
 
-				class_map.put(name, cl);// 添加类对象的键值对
+					class_map.put(name, cl);// 添加类对象的键值对
+				}
 			}
 		} catch (DocumentException e)
 		{

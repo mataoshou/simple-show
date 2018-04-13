@@ -52,6 +52,23 @@ public class DBUtil
 		}
 	}
 	
+	// 删除一行 (row为MAP后的对象)
+	public static Object delete(Object row)  throws Exception
+	{
+		Session dbss = HibernateSessionFactory.getSession();
+		try
+		{
+			dbss.beginTransaction();
+			dbss.delete(row);
+			dbss.getTransaction().commit();
+			return row;
+		} finally
+		{
+			if (dbss != null)
+				dbss.close();
+		}
+	}
+	
 	// 保存或更新一行 (row为MAP后的对象)
 	public static Object saveOrUpdate(Object row)  throws Exception
 	{

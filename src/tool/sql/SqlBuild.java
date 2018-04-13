@@ -34,12 +34,16 @@ public class SqlBuild
 	// 过滤条件
 	public String toWhere()
 	{
-		String where = " WHERE ";
+		String where = "";
 		for (int i = 0; i < list.size(); i++)
 		{
 			if (i > 0)
 				where += " AND ";
 			where += "(" + list.get(i) + ")";
+		}
+		if(where.length()>0)
+		{
+			where = " WHERE " +where; 
 		}
 		return where;
 	}

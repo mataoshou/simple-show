@@ -33,7 +33,7 @@ public class BaseFileUtil
 		logger.debug("构建文件:" + f.getPath());
 		return f;
 	}
-
+	
 	/**
 	 * 根据多段路径，获取文件完整路径
 	 */

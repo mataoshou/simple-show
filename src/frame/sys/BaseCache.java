@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import tool.CommonToolUtil;
 import tool.common.Convert;
 
 //缓存对象
@@ -71,7 +72,7 @@ public abstract class BaseCache<T, G>
 	 */
 	public List list()
 	{
-		return Convert.valuetoList(m_map);
+		return CommonToolUtil.getTools().convert.valuetoList(m_map);
 	}
 
 	public List list(Object... o)
