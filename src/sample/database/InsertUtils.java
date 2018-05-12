@@ -5,6 +5,7 @@ import java.util.List;
 
 import frame.hibernate.DBUtil;
 
+import tool.CommonTool;
 import tool.common.Shift;
 
 public class InsertUtils
@@ -16,7 +17,7 @@ public class InsertUtils
 		for (int i = 0; i < no; i++)
 		{
 			String table = tableName + "_"
-					+ Shift.leftZeroShift(String.valueOf(i), 5);
+					+ CommonTool.getTools().Shift.leftZeroShift(String.valueOf(i), 5);
 			String create = String.format("CREATE TABLE `%s` ("
 					+ "`id` bigint(12) NOT NULL AUTO_INCREMENT,"
 					+ "`code` varchar(56) DEFAULT NULL,"

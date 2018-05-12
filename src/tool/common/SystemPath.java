@@ -1,6 +1,5 @@
 package tool.common;
 
-import java.io.File;
 
 public class SystemPath
 {

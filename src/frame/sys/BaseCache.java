@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import tool.CommonToolUtil;
+import tool.CommonTool;
 import tool.common.Convert;
 
 //缓存对象
@@ -16,7 +16,9 @@ public abstract class BaseCache<T, G>
 	Map<T, G> m_map = new HashMap();// 缓存数据
 	long lastTime = 0;// 最后更新时间
 
-	//添加缓存到缓存任务中
+	/**
+	 *添加缓存到缓存任务中
+	 */
 	public void addToCache()
 	{
 		CacheManager.i().add(this);
@@ -72,7 +74,7 @@ public abstract class BaseCache<T, G>
 	 */
 	public List list()
 	{
-		return CommonToolUtil.getTools().convert.valuetoList(m_map);
+		return CommonTool.getTools().Convert.valuetoList(m_map);
 	}
 
 	public List list(Object... o)

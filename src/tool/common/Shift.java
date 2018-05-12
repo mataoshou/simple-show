@@ -3,7 +3,7 @@ package tool.common;
 public class Shift
 {
 	//获取0的字符串
-	static String getZero(int length)
+	String getZero(int length)
 	{
 		String str="";
 		for(int i=0;i<length;i++)
@@ -17,7 +17,7 @@ public class Shift
 	 * length  返回字符串长度   
 	 * s的长度超过length,返回s;小于length，左侧不足补零
 	 */
-	public static String leftZeroShift(String s,int length)
+	public String leftZeroShift(String s,int length)
 	{
 		if(s.length()>length)
 			return s;
@@ -30,7 +30,7 @@ public class Shift
 	 * length  返回字符串长度   
 	 * s的长度超过length,返回s;小于length，右侧不足补零
 	 */
-	public static String rightZeroShift(String s,int length)
+	public String rightZeroShift(String s,int length)
 	{
 		if(s.length()>length)
 			return s;
@@ -38,10 +38,10 @@ public class Shift
 		str=str.substring(0,length);
 		return str;
 	}
-	public static void main(String [] args)
-	{
-		System.out.println(leftZeroShift("qqqfff",10));
-		System.out.printf("%08\n", "qqq");
-		System.out.println(rightZeroShift("qqqfff",10));
-	}
+//	public static void main(String [] args)
+//	{
+//		System.out.println(leftZeroShift("qqqfff",10));
+//		System.out.printf("%08s\n", "qqq");
+//		System.out.println(rightZeroShift("qqqfff",10));
+//	}
 }

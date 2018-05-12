@@ -2,6 +2,7 @@ package sample.database;
 
 import java.util.List;
 
+import tool.CommonTool;
 import tool.common.Shift;
 import frame.hibernate.DBUtil;
 
@@ -99,9 +100,9 @@ public class InsertTask extends Thread
 				insert += ",";
 			insert += String.format(
 					"('%s','%s','%s')",
-					Shift.leftZeroShift(String.valueOf(i), 5)
-							+ Shift.leftZeroShift(String.valueOf(j), 5),
-					Shift.leftZeroShift(String.valueOf(i), 5), "tree" + i + j);
+					CommonTool.getTools().Shift.leftZeroShift(String.valueOf(i), 5)
+					+ CommonTool.getTools().Shift.leftZeroShift(String.valueOf(j), 5),
+					CommonTool.getTools().Shift.leftZeroShift(String.valueOf(i), 5), "tree" + i + j);
 			count++;
 			//每30次插入一次
 			if (count == 30 || j == 9999)

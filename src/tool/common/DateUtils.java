@@ -6,18 +6,27 @@ import java.util.Date;
 
 public class DateUtils
 {
-	static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	SimpleDateFormat format_normal = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	SimpleDateFormat format_path = new SimpleDateFormat("yyyy/MM/dd");
 	
-	public static String dateToString(Date d)
+	public String dateToString(Date d)
 	{
-		String str = format.format(d);
+		String str = format_normal.format(d);
 		return str;
 	}
 
-	public static Date stringToDate(String str) throws ParseException
+	public Date stringToDate(String str) throws ParseException
 	{
-		Date d = format.parse(str);
+		Date d = format_normal.parse(str);
 		return d;
 	}
+	
+	public String getTimePath()
+	{
+		String str = format_path.format(new Date());
+		return str;
+	}
+	
+	
 
 }

@@ -10,6 +10,7 @@ public abstract class MtAction
 	public HttpServletResponse response;
 	public HttpSession session;
 	
+	
 	public boolean init(HttpServletRequest req, HttpServletResponse res)
 	{
 		request=req;

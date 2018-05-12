@@ -28,8 +28,7 @@ import org.dom4j.io.SAXReader;
 public class MtFilter implements Filter
 {
 
-	Map<String, String> class_map = new HashMap();
-	Map<String, String> method_map = new HashMap();
+	Map<String, ApiItem> class_map = new HashMap();
 
 	@Override
 	public void destroy()
@@ -73,13 +72,13 @@ public class MtFilter implements Filter
 		String url = request.getRequestURI();// 访问的url路径
 
 		String key = getKey(url);// 获取key值
-		String className = class_map.get(key);// 获取类的名称
-		if (className == null)
+		ApiItem item = class_map.get(key);// 获取类的名称
+		if (item == null)
 		{
 			throw new Exception("未找到接口 " + key + ".mt");
 		}
 		String result = "";
-		Class c = Class.forName(className);// 获取类
+		Class c = Class.forName(item.className);// 获取类
 		Object action = c.newInstance();// 构建类的对象
 		if (action instanceof MtAction)// 检查是够符合要求
 		{
@@ -90,11 +89,7 @@ public class MtFilter implements Filter
 
 			initParams(request, action, c);
 
-			String methodName = method_map.get(key);
-			if (methodName == null || methodName.length() == 0)
-			{
-				methodName = "excute";
-			}
+			String methodName = item.method;
 			// 运行
 			Method exec = c.getMethod(methodName, String.class);
 			Object data = exec.invoke(action, reply);
@@ -187,13 +182,16 @@ public class MtFilter implements Filter
 					Element e = (Element) items.get(i);
 					String name = e.attribute("name").getText();// 获取name属性值
 					String cl = e.attribute("class").getText();// 获取class属性值
-					if (e.attribute("method") != null)
+					ApiItem item =new ApiItem();
+					item.name = name;
+					item.className = cl;
+					item.method="excute";
+					if ( e.attribute("method")!= null)
 					{
-						String method = e.attribute("method").getText();// 获取class属性值
-						method_map.put(name, method);// 增加执行函数的键值对
+						item.method = e.attribute("method").getText();// 获取class属性值
 					}
 
-					class_map.put(name, cl);// 添加类对象的键值对
+					class_map.put(name, item);// 添加类对象的键值对
 				}
 			}
 		} catch (DocumentException e)
@@ -203,5 +201,11 @@ public class MtFilter implements Filter
 		{
 			e.printStackTrace();
 		}
+	}
+	
+	class ApiItem{
+		String name;
+		String className ;
+		String method;
 	}
 }
