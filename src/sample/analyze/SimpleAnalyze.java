@@ -30,9 +30,8 @@ public class SimpleAnalyze implements IAnalyze {
 	{
 		 IAnalyze an = new SimpleAnalyze();
 		 ResultItem item =  an.analyzeTxt("昨天夜里去哪里", "昨天  哪里");
-		 
-		 System.out.println(CommonTool.getTools().StringUtils.link(item.status, " , "));
-		 
+//		 System.out.println(item +"sss");
+		 System.out.println(CommonTool.getTools().StringUtils.link(item.status, " , ")); 
 	}
 
 }

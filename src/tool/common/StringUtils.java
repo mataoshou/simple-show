@@ -9,7 +9,7 @@ public class StringUtils
 	//判断string是否为有效字符串
 	public  boolean isEmpty(String str)
 	{
-		if(str==null||str.length()==0)
+		if(str==null||str.isEmpty())
 		{
 			return false;
 		}
@@ -18,6 +18,20 @@ public class StringUtils
 	
 	//数组转成String 
 	public String link(int[] os,String interval)
+	{
+		String result = "";
+		for(int i=0;i<os.length;i++)
+		{
+			if(i !=0)
+			{
+				result += interval;
+			}
+			result += os[i] ;
+		}
+		return result;
+	}
+	
+	public String link(double[] os,String interval)
 	{
 		String result = "";
 		for(int i=0;i<os.length;i++)
@@ -61,7 +75,7 @@ public class StringUtils
 		return result;
 	}
 	
-	
+	//字符串去重
 	public String[] distinct(String[] strs)
 	{
 		Set set = new HashSet();

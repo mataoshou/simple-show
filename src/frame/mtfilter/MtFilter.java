@@ -20,14 +20,17 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
+import tool.CommonTool;
+
 public class MtFilter implements Filter
 {
-
+	Logger logger = Logger.getLogger("mt");
 	Map<String, ApiItem> class_map = new HashMap();
 
 	@Override
@@ -82,19 +85,22 @@ public class MtFilter implements Filter
 		Object action = c.newInstance();// 构建类的对象
 		if (action instanceof MtAction)// 检查是够符合要求
 		{
-			// 初始化
-			Method init = c.getMethod("init", HttpServletRequest.class,
-					HttpServletResponse.class);
-			boolean status = (Boolean) init.invoke(action, request, response);
+			MtAction mt = (MtAction) action;
+			mt.init(request, response);
+			mt.initAction();
+			if(mt.ischeck())
+			{
+				if(!mt.check())
+				{
+					int code= mt.getCode();
+					String reason = MtCodeCache.i().getVal(mt.getCode());
+					logger.debug("接口检验失败："+ reason);
+					return CommonTool.getTools().ReplyUtils.reply(code,reason );
+				}
+			}
 
-			initParams(request, action, c);
-
-			String methodName = item.method;
 			// 运行
-			Method exec = c.getMethod(methodName, String.class);
-			Object data = exec.invoke(action, reply);
-			result = data.toString();
-			// System.out.println(result);
+			result = mt.excute(reply);
 		}
 		return result;
 	}
@@ -185,20 +191,28 @@ public class MtFilter implements Filter
 					ApiItem item =new ApiItem();
 					item.name = name;
 					item.className = cl;
-					item.method="excute";
-					if ( e.attribute("method")!= null)
-					{
-						item.method = e.attribute("method").getText();// 获取class属性值
-					}
 
 					class_map.put(name, item);// 添加类对象的键值对
 				}
 			}
-		} catch (DocumentException e)
+			
+			List<Element> codes = root.elements("mt-code");// 获取所有的action
+			for(Element c :codes)
+			{
+				List items = c.elements("code");
+				for (int i = 0; i < items.size(); i++)
+				{
+					Element e = (Element) items.get(i);
+					int code = Integer.valueOf(e.attribute("value").getText());// 获取name属性值
+					String val = e.getText();// 获取class属性值
+					
+					MtCodeCache.i().put(code, val);
+				}
+			}
+		} catch (Exception e)
 		{
-			e.printStackTrace();
-		} catch (IOException e)
-		{
+			class_map.clear();
+			
 			e.printStackTrace();
 		}
 	}
@@ -206,6 +220,6 @@ public class MtFilter implements Filter
 	class ApiItem{
 		String name;
 		String className ;
-		String method;
+//		String method;
 	}
 }

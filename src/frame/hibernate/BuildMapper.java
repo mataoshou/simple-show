@@ -78,7 +78,7 @@ public class BuildMapper
 		
 		content += getContent(tab_no,tab,"package base.db;");
 		
-		content += getContent(tab_no,tab,"public class "+className);
+		content += getContent(tab_no,tab,"public class "+className +" extends AbstractMapper");
 		
 		content += getContent(tab_no,tab,"{");
 		

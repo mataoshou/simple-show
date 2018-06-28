@@ -3,5 +3,16 @@
 	<mt-api>
 		<action name="data" class="main.mt.DataSampleAction"></action>
 		<action name="MenuGet" class="business.daily.code.MenuListAction"></action>
+		
+		<action name="SweetList" class="sample.mt.action.SweetListAction"></action>
+		
+		
 	</mt-api>
+	
+	
+	<mt-code>
+		<code value = "0">正常</code>
+		<code value = "-10">登录超时</code>
+		<code value = "100">测试代码</code>
+	</mt-code>
 </mt>

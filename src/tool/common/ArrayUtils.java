@@ -13,4 +13,38 @@ public class ArrayUtils
 		}
 		return result;
 	}
+	
+	public int getMaxIndex(int[] is)
+	{
+		int no =-1;
+		int max =-1;
+		
+		for(int i=0;i<is.length;i++)
+		{
+			if(is[i]>max)
+			{
+				no = i;
+				max =is[i];
+			}
+		}
+		
+		return no;
+	}
+	
+	public int getMinIndex(int[] is)
+	{
+		int no =-1;
+		int min =Integer.MAX_VALUE;
+		
+		for(int i=0;i<is.length;i++)
+		{
+			if(is[i]<min)
+			{
+				no = i;
+				min =is[i];
+			}
+		}
+		
+		return no;
+	}
 }
