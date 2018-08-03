@@ -53,6 +53,7 @@ public class MtFilter implements Filter
 			result = execute(httpRequest, httpResponse);// 执行函数
 		} catch (Exception e)
 		{
+			e.printStackTrace();
 			httpResponse.sendError(400, "eorror:" + e.getMessage());
 			return;
 		}

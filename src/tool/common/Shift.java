@@ -5,12 +5,12 @@ public class Shift
 	//获取0的字符串
 	String getZero(int length)
 	{
-		String str="";
+		StringBuilder str= new StringBuilder(length);
 		for(int i=0;i<length;i++)
 		{
-			str+="0";
+			str.append("0");
 		}
-		return str;
+		return str.toString();
 	}
 	/**
 	 * 左侧补零

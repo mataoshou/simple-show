@@ -6,6 +6,8 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
+import tool.CommonTool;
+
 public abstract class MtAction
 {
 	
@@ -17,6 +19,8 @@ public abstract class MtAction
 	protected HttpServletRequest request;
 	protected HttpServletResponse response;
 	protected HttpSession session;
+	
+	protected CommonTool tool = CommonTool.getTools();
 	
 	final public boolean init(HttpServletRequest req, HttpServletResponse res)
 	{

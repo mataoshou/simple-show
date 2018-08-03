@@ -14,6 +14,15 @@ import org.apache.log4j.Logger;
 public class BaseFileUtil
 {
 	static Logger logger = Logger.getLogger(BaseFileUtil.class);
+	
+	/**
+	 *初始化文件路径，并删除已存在文件 
+	 */
+	public static void initFile(File f)
+	{
+		f.deleteOnExit();
+		f.getParentFile().mkdirs();
+	}
 
 	/**
 	 * 根据多段路径，获取文件

@@ -6,6 +6,7 @@ import tool.common.DateUtils;
 import tool.common.ReplyUtils;
 import tool.common.Shift;
 import tool.common.StringUtils;
+import tool.file.BaseFileUtil;
 
 public class CommonTool
 {
@@ -30,4 +31,6 @@ public class CommonTool
 	public final Shift Shift= new Shift();
 	
 	public final ReplyUtils ReplyUtils= new ReplyUtils();
+	
+	public final BaseFileUtil BaseFileUtil = new BaseFileUtil();
 }

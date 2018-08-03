@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.io.UnsupportedEncodingException;
 
 public class FileStore
@@ -30,7 +31,7 @@ public class FileStore
 		return null;
 	}
 	
-	public static void putString(File f,String str,String charset)
+	public void putString(File f,String str,String charset)
 	{
 		if(f.exists())
 		{
@@ -55,6 +56,33 @@ public class FileStore
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+			}
+		}
+	}
+	
+	public void append(String content,String charset,File f)
+	{
+		RandomAccessFile randomFile = null;
+		try {
+			f.getParentFile().mkdirs();
+			randomFile = new RandomAccessFile(f, "rw");
+            // 文件长度，字节数
+            long fileLength = randomFile.length();
+            //将写文件指针移到文件尾。在该位置发生下一个读取或写入操作。
+            randomFile.seek(fileLength);
+            //按字节序列将该字符串写入该文件。
+            randomFile.write(content.getBytes(charset));
+          
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		finally{
+			  try {
+				randomFile.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}

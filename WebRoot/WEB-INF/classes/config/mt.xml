@@ -5,7 +5,7 @@
 		<action name="MenuGet" class="business.daily.code.MenuListAction"></action>
 		
 		<action name="SweetList" class="sample.mt.action.SweetListAction"></action>
-		
+		<action name="HtmlParser" class="business.web.html.HtmlParserAction"></action>
 		
 	</mt-api>
 	

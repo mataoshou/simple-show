@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>HtmlUrl.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+   	<script type="text/javascript" src="../js/jquery.js"></script>
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+    <script>
+  	function getContent()
+  	{
+  		var req={};
+  		req.url=$(".h-url").val();
+  		$.ajax({
+  			url:"HtmlParser.mt",
+  			type:'POST', //GET
+    		async:true,    //或false,是否异步
+    		data:JSON.stringify(req),
+		    success:function(data,textStatus,jqXHR){
+		        console.log(data)
+		        var result = JSON.parse(data);
+		        $(".h-title").html(result.title);
+		        $(".h-content").html(result.content);
+		    },
+		    error:function(xhr,textStatus){
+		        console.log('错误')
+		        console.log(xhr)
+		        console.log(textStatus)
+		    },
+		    complete:function(){
+		        console.log('结束')
+		    }
+  		})
+  	}
+  </script>
+  <body>
+    <div>
+    	<div>url:<input class ="h-url"><input type="button" onclick="getContent()" value="提取内容"></div>
+    	<div><span>标题：</span><span class ="h-title"></span></div>
+    	<div><span>内容：</span><span class ="h-content"></span></div>
+    </div>
+  </body>
+</html>
