@@ -23,8 +23,10 @@ public class HtmlParserAction  extends MtAction {
 			String htmlContent = HtmlUtils.doGet(url);
 			
 			String charset = HtmlUtils.getChartset(htmlContent);
+			System.out.println("..................编码格式："+charset);
 			
 			htmlContent = new String( htmlContent.getBytes("UTF-8"),charset);
+			System.out.println(htmlContent);
 			HtmlDraw d = new HtmlDraw();
 			d.draw(htmlContent);
 			String resultContent ="";

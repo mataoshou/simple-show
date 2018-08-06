@@ -27,22 +27,29 @@ public class HtmlDraw {
 			lengths.add(item.length);
 		}
 		
+		p.maxLength = ListUtils.removeMax(lengths);
+		p.minLength = ListUtils.removeMin(lengths);
 		
-		int max = ListUtils.getMax(lengths);
-		int min = ListUtils.getMin(lengths);
+		p.smaxLength = ListUtils.getMax(lengths);
+		p.sminLength = ListUtils.getMin(lengths);
 		
-		int interval = (max- min)/100;
 		
-		if((max- min)%100>0)interval++;
+		int interval = (p.smaxLength- p.sminLength)/100;
 		
-		System.out.println(String.format("最大值:%s,最小值：%s,切割区间范围：%s", max,min,interval));
+		if((p.smaxLength- p.sminLength)%100>0)interval++;
+		
+		p.interval = interval;
+		
+		System.out.println(String.format("最大值:%s,最小值：%s,切割区间范围：%s", p.smaxLength,p.sminLength,interval));
 		
 		////构建基础分值
 		for(HtmlItem item : p.items)
 		{
-			item.score = ( (item.length -min)/interval);
+			item.score = ( (item.length -p.sminLength)/interval);
 			item.finalScore = item.score;
 		}
+		
+		p.initfinalScore();
 		
 		HtmlUtils.show(p.items, "分数初始化结果");
 		
@@ -83,6 +90,9 @@ public class HtmlDraw {
 			int l = p.items.size();
 			p.items.remove(l-1);
 		}
+		
+		p.range.index-=begin;
+		p.range.end -=begin;
 	}
 	
 //	public RangeItem getMaxRange()
@@ -96,7 +106,7 @@ public class HtmlDraw {
 		int index  =0;
 		int max =0;
 		int length = p.items.size();
-		for(int i =0;i<length;i++)
+		for(int i =0;i<p.range.index;i++)
 		{
 			HtmlItem item = p.items.get(i);
 			if(item.length>max)
@@ -117,8 +127,8 @@ public class HtmlDraw {
 			}
 			begin--;
 		}
-		int end =index;
-		for(int i =index;i<length;i++)
+		int end =p.range.end;
+		for(int i =p.range.end;i<length;i++)
 		{
 			HtmlItem item = p.items.get(i);
 			if(item.finalScore <= score)
@@ -140,6 +150,21 @@ public class HtmlDraw {
 		{
 			int l = p.items.size()-1;
 			p.items.remove(l);
+		}
+	}
+	//低于分数的文本清理
+	public void filter3(int score)
+	{
+		int length = p.items.size();
+		for(int i =0;i<length;i++)
+		{
+			HtmlItem item = p.items.get(i);
+			if(item.finalScore<=score)
+			{
+				p.items.remove(i);
+				i--;
+				length = p.items.size();
+			}
 		}
 	}
 	////根据左右的内容修改评分
@@ -191,6 +216,7 @@ public class HtmlDraw {
 		System.out.println(".........................................................");
 		HtmlUtils.show(p.items, "第一次分数整理后结果");
 		System.out.println(".........................................................");
+		filter3(0);
 		buildFinalScore();
 		filter2(10);
 		filter(20);
@@ -201,11 +227,11 @@ public class HtmlDraw {
 	
 	public static void main(String[] args) throws Exception
 	{
-		File f =  new File(HtmlDraw.class.getResource("/").getPath(),"sample/html/555.html");
+		File f =  new File(HtmlDraw.class.getResource("/").getPath(),"sample/html/666.html");
 		HtmlDraw d = new HtmlDraw();
 		
 		String content = HtmlUtils.getString(f, "UTF-8");
-		System.out.println(content);
+//		System.out.println(content);
 		String charset = HtmlUtils.getChartset(content);
 //		
 		content = HtmlUtils.getString(f, charset);

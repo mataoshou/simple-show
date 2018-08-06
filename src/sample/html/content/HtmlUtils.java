@@ -60,15 +60,17 @@ public class HtmlUtils {
 		while (matcher.find())
 		{
 			String content = matcher.group(1);
-			String[] charts = getCharts();
-			for(int i=0;i<charts.length;i++)
+			if(content.indexOf("charset")>=0)
 			{
-				if(content.toUpperCase().indexOf(charts[i])>=0)
+				String[] charts = getCharts();
+				for(int i=0;i<charts.length;i++)
 				{
-					return charts[i];
+					if(content.toUpperCase().indexOf(charts[i])>=0)
+					{
+						return charts[i];
+					}
 				}
 			}
-			return content;
 		}		
 		
 		return "";
@@ -138,9 +140,11 @@ public class HtmlUtils {
 	
 	public static void show(List<HtmlItem> list,String descr)
 	{
+		int index =0;
 		for(HtmlItem item :list)
 		{
-			System.out.println(String.format("[ %s ] 分值 ：%s 内容： %s", descr,item.finalScore,item.content));
+			index++;
+			System.out.println(String.format("index : %s [ %s ] 分值 ：%s 内容： %s", index, descr,item.finalScore,item.content));
 		}
 	}
 	
