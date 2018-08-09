@@ -8,7 +8,7 @@ public class HtmlItem {
 	public int finalScore = 0;
 	
 	
-	public boolean delete =false;
+	public boolean unDelete =false;
 	
 	public HtmlItem(String content)
 	{

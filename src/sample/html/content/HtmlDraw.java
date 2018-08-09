@@ -200,12 +200,6 @@ public class HtmlDraw {
 		HtmlUtils.show(p.items, "分数合并结果");
 	}
 	
-	////根据左右的内容，清理异常数据
-	public void thirdDraw()
-	{
-		
-	}
-	
 	public void draw(String content) throws Exception
 	{
 		
@@ -227,7 +221,7 @@ public class HtmlDraw {
 	
 	public static void main(String[] args) throws Exception
 	{
-		File f =  new File(HtmlDraw.class.getResource("/").getPath(),"sample/html/666.html");
+		File f =  new File(HtmlDraw.class.getResource("/").getPath(),"sample/html/111.html");
 		HtmlDraw d = new HtmlDraw();
 		
 		String content = HtmlUtils.getString(f, "UTF-8");

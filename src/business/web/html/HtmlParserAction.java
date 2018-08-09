@@ -32,7 +32,7 @@ public class HtmlParserAction  extends MtAction {
 			String resultContent ="";
 			for(HtmlItem item: d.p.items)
 			{
-				resultContent += item.content +"<br>";
+				resultContent += item.content +"\r\n";
 			}
 			result.put("content", resultContent);
 			result.put("title", d.p.title);

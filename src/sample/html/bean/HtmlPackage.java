@@ -45,13 +45,15 @@ public class HtmlPackage {
 					range.length = length;
 					
 				}
-				
 				length = 0;
 				index = 0;
 				end = 0;
-				
 			}
-			
+		}
+		
+		for(int i = range.index;i<range.length;i++)
+		{
+			items.get(i).unDelete = true;
 		}
 		
 		System.out.println(String.format("最大范围  起始位置 %s  结束位置 %s  长度 %s  中间分值 %s",range.index,range.end,range.length ,this.middleScore));
