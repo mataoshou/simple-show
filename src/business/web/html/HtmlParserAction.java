@@ -3,7 +3,7 @@ package business.web.html;
 import net.sf.json.JSONObject;
 import sample.html.bean.HtmlItem;
 import sample.html.content.HtmlDraw;
-import sample.html.content.HtmlUtils;
+import sample.html.content.HtmlGet;
 import frame.mtfilter.MtAction;
 
 public class HtmlParserAction  extends MtAction {
@@ -20,15 +20,11 @@ public class HtmlParserAction  extends MtAction {
 		
 		JSONObject result = JSONObject.fromObject("{}");
 		try {
-			String htmlContent = HtmlUtils.doGet(url);
-			
-			String charset = HtmlUtils.getChartset(htmlContent);
-			System.out.println("..................编码格式："+charset);
-			
-			htmlContent = new String( htmlContent.getBytes("UTF-8"),charset);
-			System.out.println(htmlContent);
+
 			HtmlDraw d = new HtmlDraw();
-			d.draw(htmlContent);
+			d.getContent(url);
+			System.out.println(d.content);
+			d.draw(d.content);
 			String resultContent ="";
 			for(HtmlItem item: d.p.items)
 			{
@@ -57,7 +53,7 @@ public class HtmlParserAction  extends MtAction {
 	{
 		HtmlParserAction action = new HtmlParserAction();
 		JSONObject json = JSONObject.fromObject("{}");
-		json.put("url", "https://mbd.baidu.com/newspage/data/landingsuper?context=%7B%22nid%22%3A%22news_18177225264736531237%22%7D&n_type=0&p_from=1");
+		json.put("url", "http://sports.qq.com/a/20180819/030010.htm");
 		 
 	    System.out.println(	action.excute(json.toString()));
 	}

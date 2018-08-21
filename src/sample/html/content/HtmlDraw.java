@@ -10,53 +10,29 @@ import sample.html.tool.ListUtils;
 
 public class HtmlDraw {
 	public HtmlPackage p = new HtmlPackage();
+	public HtmlGet html = new HtmlGet();
+	public String content ="";
 	public void getText(String content) throws Exception
 	{
 		
-		p  = HtmlUtils.getPackage(content);
+		p  = HtmlCommon.getPackage(content);
 	}
 	
+	
+	public void getContent(String url) throws Exception
+	{
+		content = html.getContent(url);
+	}
 	///根据分数段进行评分
 	public void initScore()
 	{
-		List<Integer> lengths = new ArrayList();
-		
-		for(HtmlItem item : p.items)
-		{
-			if(item.length==0)continue;
-			lengths.add(item.length);
-		}
-		
-		p.maxLength = ListUtils.removeMax(lengths);
-		p.minLength = ListUtils.removeMin(lengths);
-		
-		p.smaxLength = ListUtils.getMax(lengths);
-		p.sminLength = ListUtils.getMin(lengths);
-		
-		
-		int interval = (p.smaxLength- p.sminLength)/100;
-		
-		if((p.smaxLength- p.sminLength)%100>0)interval++;
-		
-		p.interval = interval;
-		
-		System.out.println(String.format("最大值:%s,最小值：%s,切割区间范围：%s", p.smaxLength,p.sminLength,interval));
-		
-		////构建基础分值
-		for(HtmlItem item : p.items)
-		{
-			item.score = ( (item.length -p.sminLength)/interval);
-			item.finalScore = item.score;
-		}
-		
-		p.initfinalScore();
-		
-		HtmlUtils.show(p.items, "分数初始化结果");
+		p.initScore();
 		
 	}
 	//清理不符合条件的两侧文本
 	public void filter(int score)
 	{
+		System.out.println("....清理两侧分值小于  "+ score+"  的文本区域");
 		int length = p.items.size();
 		int begin =0;
 		int end =0;
@@ -91,8 +67,6 @@ public class HtmlDraw {
 			p.items.remove(l-1);
 		}
 		
-		p.range.index-=begin;
-		p.range.end -=begin;
 	}
 	
 //	public RangeItem getMaxRange()
@@ -103,10 +77,12 @@ public class HtmlDraw {
 	///清理不符合条件的结束文本
 	public void filter2(int score)
 	{
+		System.out.println("....清理分值小于  "+ score+"  的文本区域");
 		int index  =0;
 		int max =0;
 		int length = p.items.size();
-		for(int i =0;i<p.range.index;i++)
+		int l_index = p.range.index;
+		for(int i =0;i<l_index;i++)
 		{
 			HtmlItem item = p.items.get(i);
 			if(item.length>max)
@@ -155,6 +131,7 @@ public class HtmlDraw {
 	//低于分数的文本清理
 	public void filter3(int score)
 	{
+		System.out.println("....清理分值小于  "+ score +"  的文本");
 		int length = p.items.size();
 		for(int i =0;i<length;i++)
 		{
@@ -197,7 +174,7 @@ public class HtmlDraw {
 			}
 		}
 		
-		HtmlUtils.show(p.items, "分数合并结果");
+		HtmlCommon.show(p.items, "分数合并结果");
 	}
 	
 	public void draw(String content) throws Exception
@@ -207,15 +184,20 @@ public class HtmlDraw {
 		System.out.println(".........................标题："+p.title);
 		initScore();
 		filter(10);
+		p.buildRange();
 		System.out.println(".........................................................");
-		HtmlUtils.show(p.items, "第一次分数整理后结果");
+		HtmlCommon.show(p.items, "第一次分数整理后结果");
 		System.out.println(".........................................................");
 		filter3(0);
+		p.buildRange();
 		buildFinalScore();
+		p.buildRange();
 		filter2(10);
+		p.buildRange();
 		filter(20);
+		p.buildRange();
 		System.out.println(".........................................................");
-		HtmlUtils.show(p.items, "第二次分数整理后结果");
+		HtmlCommon.show(p.items, "第二次分数整理后结果");
 	}
 	
 	
@@ -223,13 +205,6 @@ public class HtmlDraw {
 	{
 		File f =  new File(HtmlDraw.class.getResource("/").getPath(),"sample/html/111.html");
 		HtmlDraw d = new HtmlDraw();
-		
-		String content = HtmlUtils.getString(f, "UTF-8");
-//		System.out.println(content);
-		String charset = HtmlUtils.getChartset(content);
-//		
-		content = HtmlUtils.getString(f, charset);
-		d.draw(content);
 		
 	}
 }

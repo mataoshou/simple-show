@@ -8,16 +8,7 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.StatusLine;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.cyberneko.html.parsers.DOMParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -29,8 +20,7 @@ import org.xml.sax.SAXException;
 import sample.html.bean.HtmlItem;
 import sample.html.bean.HtmlPackage;
 
-
-public class HtmlUtils {
+public class HtmlCommon {
 	public static String getString(File dstFile,String charset) throws Exception
 	{
 		InputStream inStream = new FileInputStream(dstFile);
@@ -52,34 +42,14 @@ public class HtmlUtils {
 		return out.toString(charset);
 	}
 	
-	public static String getChartset(String str) throws SAXException, IOException
+	public static void show(List<HtmlItem> list,String descr)
 	{
-		String reg  = "<meta(.*?)>";
-		Pattern pattern = Pattern.compile(reg);
-		Matcher matcher = pattern.matcher(str);
-		while (matcher.find())
+		int index =0;
+		for(HtmlItem item :list)
 		{
-			String content = matcher.group(1);
-			if(content.indexOf("charset")>=0)
-			{
-				String[] charts = getCharts();
-				for(int i=0;i<charts.length;i++)
-				{
-					if(content.toUpperCase().indexOf(charts[i])>=0)
-					{
-						return charts[i];
-					}
-				}
-			}
-		}		
-		
-		return "";
-	}
-	
-	public static String[] getCharts()
-	{
-		String[] charts = new String[]{"GBK","GB2312","UTF-8"};
-		return charts;
+			index++;
+			System.out.println(String.format("index : %s [ %s ] 分值 ：%s 内容： %s", index, descr,item.finalScore,item.content));
+		}
 	}
 	
 	public static HtmlPackage getPackage(String content) throws SAXException, IOException
@@ -137,44 +107,4 @@ public class HtmlUtils {
 		
 		return list;
 	}
-	
-	public static void show(List<HtmlItem> list,String descr)
-	{
-		int index =0;
-		for(HtmlItem item :list)
-		{
-			index++;
-			System.out.println(String.format("index : %s [ %s ] 分值 ：%s 内容： %s", index, descr,item.finalScore,item.content));
-		}
-	}
-	
-	// HTTP GET测试
-	public static String doGet(String url) throws Exception
-	{
-		CloseableHttpClient httpclient = HttpClients.createDefault();
-		HttpGet httpget = new HttpGet(url);
-		CloseableHttpResponse response = httpclient.execute(httpget);
-		try
-		{
-			StatusLine statusLine = response.getStatusLine();
-			int status = statusLine.getStatusCode();
-			if(status != 200)
-			{
-				throw new Exception("HTTP GET出错:"+ status + ","+ statusLine.getReasonPhrase());
-			}
-			
-			HttpEntity entity = response.getEntity();
-			if (entity != null)
-			{
-				String ss = EntityUtils.toString(entity,"UTF-8");;
-				return ss;
-			}
-		} finally
-		{
-			response.close();
-		}
-		return null;
-	}
-	
-
 }
